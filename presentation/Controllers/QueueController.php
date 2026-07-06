@@ -350,7 +350,16 @@ class QueueController extends Controller
                 FROM jadwal_praktiks jp
                 JOIN dokters d ON jp.kd_dokter = d.kd_dokter
                 JOIN polis p ON d.kd_poli = p.kd_poli
-                ORDER BY FIELD(jp.hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'), jp.jam_mulai ASC
+                ORDER BY 
+                    CASE jp.hari 
+                        WHEN 'Senin'  THEN 1 
+                        WHEN 'Selasa' THEN 2 
+                        WHEN 'Rabu'   THEN 3 
+                        WHEN 'Kamis'  THEN 4 
+                        WHEN 'Jumat'  THEN 5 
+                        WHEN 'Sabtu'  THEN 6 
+                        ELSE 7 
+                    END, jp.jam_mulai ASC
             ");
             $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
