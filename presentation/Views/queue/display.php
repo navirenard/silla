@@ -22,12 +22,12 @@
     <!-- Active Counters Grid -->
     <div class="display-grid">
         <?php foreach ($counters as $c): ?>
-            <?php if ($c->isActive): ?>
-                <div class="display-card" id="counter-card-<?= htmlspecialchars($c->id) ?>" style="border: 1px solid var(--border-light); box-shadow: var(--shadow-md); border-top: 5px solid var(--bg-header);">
-                    <div class="display-counter-name" style="color: var(--bg-header); font-weight: 800;"><?= htmlspecialchars($c->name) ?></div>
+            <?php if ($c['is_active']): ?>
+                <div class="display-card" id="counter-card-<?= htmlspecialchars($c['id']) ?>" style="border: 1px solid var(--border-light); box-shadow: var(--shadow-md); border-top: 5px solid var(--bg-header);">
+                    <div class="display-counter-name" style="color: var(--bg-header); font-weight: 800;"><?= htmlspecialchars($c['name']) ?></div>
                     <div style="font-size: 0.8rem; color: var(--text-secondary); text-transform: uppercase; font-weight: 700; letter-spacing: 0.08em; margin-top: 15px;">Nomor Antrian</div>
-                    <div class="display-number" id="counter-num-<?= htmlspecialchars($c->id) ?>" style="font-size: 5.2rem; font-weight: 900; margin: 10px 0; color: var(--primary-dark);">
-                        <?= htmlspecialchars($c->currentQueueNumber ?: '-') ?>
+                    <div class="display-number" id="counter-num-<?= htmlspecialchars($c['id']) ?>" style="font-size: 5.2rem; font-weight: 900; margin: 10px 0; color: var(--primary-dark);">
+                        <?= htmlspecialchars($c['current_queue_number'] ?: '-') ?>
                     </div>
                     <div style="color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid #f1f5f9; padding-top: 15px; font-weight: 600;">
                         Silakan Menuju ke Loket
