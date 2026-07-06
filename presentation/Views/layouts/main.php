@@ -85,7 +85,7 @@
     </footer>
 
     <!-- Inject dynamic base path for JS AJAX calls -->
-    <script>window.APP_BASE_PATH = '<?= rtrim(str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']), '/') ?>';</script>
+    <script>window.APP_BASE_PATH = '<?= (isset($_SERVER['VERCEL']) || getenv('VERCEL') === '1') ? '' : rtrim(str_replace('/index.php', '', $_SERVER['SCRIPT_NAME']), '/') ?>';</script>
     <!-- Client-Side App Script -->
     <script src="<?= url('/assets/js/app.js') ?>"></script>
 </body>

@@ -14,12 +14,16 @@ $rawPath = $parsedUrl['path'] ?? '/';
 // Determine base path by comparing DOCUMENT_ROOT with the physical
 // location of this index.php file. This works correctly on Windows
 // and with Laragon virtual host setups.
-$docRoot = rtrim(str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT'] ?? '')), '/');
-$scriptFile = str_replace('\\', '/', realpath(__FILE__));
-$scriptDir  = rtrim(dirname($scriptFile), '/');
-$basePath   = ($docRoot && strpos($scriptDir, $docRoot) === 0)
-    ? substr($scriptDir, strlen($docRoot))
-    : '';
+if (isset($_SERVER['VERCEL']) || getenv('VERCEL') === '1') {
+    $basePath = '';
+} else {
+    $docRoot = rtrim(str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT'] ?? '')), '/');
+    $scriptFile = str_replace('\\', '/', realpath(__FILE__));
+    $scriptDir  = rtrim(dirname($scriptFile), '/');
+    $basePath   = ($docRoot && strpos($scriptDir, $docRoot) === 0)
+        ? substr($scriptDir, strlen($docRoot))
+        : '';
+}
 
 $path = ($basePath !== '')
     ? preg_replace('#^' . preg_quote($basePath, '#') . '#', '', $rawPath)

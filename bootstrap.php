@@ -5,6 +5,11 @@
  */
 function url(string $path): string
 {
+    // Jika berjalan di Vercel, app selalu di root level
+    if (isset($_SERVER['VERCEL']) || getenv('VERCEL') === '1') {
+        return '/' . ltrim($path, '/');
+    }
+
     // Gunakan SCRIPT_FILENAME (path fisik script) vs DOCUMENT_ROOT
     // agar kompatibel dengan Laragon di Windows tanpa perlu vhost setup.
     $docRoot    = rtrim(str_replace('\\', '/', realpath($_SERVER['DOCUMENT_ROOT'] ?? '')), '/');
