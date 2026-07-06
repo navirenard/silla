@@ -5,7 +5,6 @@ namespace App\Presentation\Controllers;
 use Container;
 use App\Application\UseCases\Auth\LoginUser;
 use App\Application\UseCases\Auth\RegisterUser;
-use App\Application\UseCases\Auth\LogoutUser;
 use App\Presentation\Middleware\AuthMiddleware;
 use Exception;
 
@@ -20,11 +19,8 @@ class AuthController extends Controller
             $this->redirect('/dashboard');
         }
 
-        // Baca pesan dari query param (kompatibel dengan serverless Vercel)
-        // Fallback ke session untuk kompatibilitas lokal
-        $error   = isset($_GET['error'])   ? htmlspecialchars_decode(urldecode($_GET['error']))   : ($_SESSION['auth_error']   ?? null);
-        $success = isset($_GET['success']) ? htmlspecialchars_decode(urldecode($_GET['success'])) : ($_SESSION['auth_success'] ?? null);
-        unset($_SESSION['auth_error'], $_SESSION['auth_success']);
+        $error   = isset($_GET['error'])   ? htmlspecialchars_decode(urldecode($_GET['error']))   : null;
+        $success = isset($_GET['success']) ? htmlspecialchars_decode(urldecode($_GET['success'])) : null;
 
         $this->render('auth/login', [
             'title'   => 'Login - SiLLA',
@@ -38,7 +34,7 @@ class AuthController extends Controller
      */
     public function login(): void
     {
-        $email    = $_POST['email']    ?? '';
+        $email    = trim($_POST['email']    ?? '');
         $password = $_POST['password'] ?? '';
 
         try {
@@ -46,18 +42,22 @@ class AuthController extends Controller
             $loginUseCase = Container::get(LoginUser::class);
             $result = $loginUseCase->execute($email, $password);
 
-            // Simpan detail user ke session
-            $_SESSION['user_uid']   = $result['user']->uid;
-            $_SESSION['user_email'] = $result['user']->email;
-            $_SESSION['user_name']  = $result['user']->displayName;
-            $_SESSION['user_role']  = $result['user']->role;
+            $user = $result['user'];
+
+            // Set stateless signed cookie — bekerja di Vercel serverless
+            AuthMiddleware::setAuthCookie([
+                'uid'   => $user->uid,
+                'email' => $user->email,
+                'name'  => $user->displayName,
+                'role'  => $user->role,
+            ]);
 
             $this->redirect('/dashboard');
 
         } catch (Exception $e) {
             $msg = $e->getMessage();
             if (str_contains($msg, 'SQLSTATE') || str_contains($msg, 'Connection') || str_contains($msg, 'could not')) {
-                $msg = 'Gagal terhubung ke server database. Periksa konfigurasi koneksi atau coba beberapa saat lagi.';
+                $msg = 'Gagal terhubung ke server database. Periksa konfigurasi koneksi.';
             }
             $this->redirect('/login?error=' . urlencode($msg));
         }
@@ -72,8 +72,7 @@ class AuthController extends Controller
             $this->redirect('/dashboard');
         }
 
-        $error = isset($_GET['error']) ? htmlspecialchars_decode(urldecode($_GET['error'])) : ($_SESSION['auth_error'] ?? null);
-        unset($_SESSION['auth_error']);
+        $error = isset($_GET['error']) ? htmlspecialchars_decode(urldecode($_GET['error'])) : null;
 
         $this->render('auth/register', [
             'title' => 'Pendaftaran Akun - SiLLA',
@@ -86,8 +85,8 @@ class AuthController extends Controller
      */
     public function register(): void
     {
-        $name     = $_POST['name']     ?? '';
-        $email    = $_POST['email']    ?? '';
+        $name     = trim($_POST['name']     ?? '');
+        $email    = trim($_POST['email']    ?? '');
         $password = $_POST['password'] ?? '';
         $role     = 'officer';
 
@@ -101,7 +100,7 @@ class AuthController extends Controller
         } catch (Exception $e) {
             $msg = $e->getMessage();
             if (str_contains($msg, 'SQLSTATE') || str_contains($msg, 'Connection') || str_contains($msg, 'could not')) {
-                $msg = 'Gagal terhubung ke server database. Periksa konfigurasi koneksi atau coba beberapa saat lagi.';
+                $msg = 'Gagal terhubung ke server database. Periksa konfigurasi koneksi.';
             }
             $this->redirect('/register?error=' . urlencode($msg));
         }
@@ -112,10 +111,7 @@ class AuthController extends Controller
      */
     public function logout(): void
     {
-        /** @var LogoutUser $logoutUseCase */
-        $logoutUseCase = Container::get(LogoutUser::class);
-        $logoutUseCase->execute();
-
+        AuthMiddleware::clearAuthCookie();
         $this->redirect('/login?success=' . urlencode('Anda berhasil keluar dari sistem.'));
     }
 }

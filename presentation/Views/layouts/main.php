@@ -1,6 +1,8 @@
 <?php
 $requestUri = $_SERVER['REQUEST_URI'] ?? '';
 $isAuthPage = strpos($requestUri, '/login') !== false || strpos($requestUri, '/register') !== false;
+// Baca user dari cookie stateless (kompatibel dengan Vercel serverless)
+$_authUser  = \App\Presentation\Middleware\AuthMiddleware::getUser();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -66,8 +68,8 @@ $isAuthPage = strpos($requestUri, '/login') !== false || strpos($requestUri, '/r
                     <?php if (\App\Presentation\Middleware\AuthMiddleware::isAuthenticated()): ?>
                         <div class="user-badge">
                             <span class="user-dot"></span>
-                            <span class="user-name"><?= htmlspecialchars($_SESSION['user_name']) ?></span>
-                            <span class="user-role-label"><?= htmlspecialchars(ucfirst($_SESSION['user_role'])) ?></span>
+                            <span class="user-name"><?= htmlspecialchars($_authUser['name'] ?? '') ?></span>
+                            <span class="user-role-label"><?= htmlspecialchars(ucfirst($_authUser['role'] ?? '')) ?></span>
                         </div>
                         <a href="<?= url('/logout') ?>" class="btn-logout-custom">Logout</a>
                     <?php else: ?>
