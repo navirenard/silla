@@ -1,0 +1,14 @@
+{
+    "name": "silla/sistem-layanan-loket-antrian",
+    "description": "Sistem Layanan Loket Antrian (SiLLA) using PHP, Firebase, and Clean Architecture",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": ["src/", "presentation/"]
+        }
+    },
+    "require": {
+        "php": ">=7.4"
+    }
+}
