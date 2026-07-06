@@ -4,6 +4,10 @@
         display: none;
     }
     @media print {
+        @page {
+            size: landscape;
+            margin: 10mm;
+        }
         header, footer, .btn-print-report, .app-header, .no-print {
             display: none !important;
         }
@@ -15,26 +19,76 @@
             color: #000000 !important;
             padding: 0 !important;
             margin: 0 !important;
+            font-family: Arial, sans-serif !important;
         }
         .page-container {
             max-width: 100% !important;
             padding: 0 !important;
             margin: 0 !important;
+            width: 100% !important;
         }
         .glass-panel {
             border: none !important;
             box-shadow: none !important;
             background: none !important;
             padding: 0 !important;
+            margin: 0 !important;
+        }
+        .table-responsive {
+            overflow: visible !important;
+            width: 100% !important;
+        }
+        .custom-table {
+            width: 100% !important;
+            table-layout: auto !important;
+            border-collapse: collapse !important;
         }
         .custom-table th {
             background-color: #f1f5f9 !important;
             color: #000000 !important;
             border-bottom: 2px solid #000000 !important;
+            font-size: 10px !important;
+            padding: 6px 4px !important;
+            text-align: center !important;
+            font-weight: bold !important;
         }
-        .custom-table td, .custom-table th {
-            padding: 8px !important;
+        .custom-table td {
+            padding: 6px 4px !important;
             border: 1px solid #cbd5e1 !important;
+            font-size: 10px !important;
+            color: #000000 !important;
+            text-align: center !important;
+            font-weight: normal !important;
+            word-break: break-word !important;
+        }
+        .custom-table td:first-child {
+            font-weight: bold !important;
+        }
+        /* Override inline styles inside td */
+        .custom-table td * {
+            font-size: 10px !important;
+            color: #000000 !important;
+        }
+        .custom-table .badge {
+            background: transparent !important;
+            color: #000000 !important;
+            border: 1px solid #cbd5e1 !important;
+            padding: 2px 4px !important;
+            font-size: 9px !important;
+            border-radius: 4px !important;
+            display: inline-block !important;
+        }
+        .print-only-block h2 {
+            font-size: 1.5rem !important;
+            margin-bottom: 5px !important;
+        }
+        .print-only-block h3 {
+            font-size: 1.1rem !important;
+            margin-bottom: 10px !important;
+        }
+        .print-only-block p {
+            font-size: 0.8rem !important;
+            margin-bottom: 20px !important;
         }
     }
 </style>

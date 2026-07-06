@@ -1,8 +1,10 @@
 <!-- Halaman Manajemen Loket (Admin Only) -->
 <div class="page-container">
-    <div style="margin-bottom: 30px;">
-        <h1 style="font-size: 2.2rem; margin-bottom: 5px;">Manajemen Loket Layanan</h1>
-        <p style="color: var(--text-secondary);">Kelola unit loket pelayanan antrian (Admin Only).</p>
+    <div class="page-header">
+        <div class="page-header-title">
+            <h1>Manajemen Loket Layanan</h1>
+            <p>Kelola unit loket pelayanan antrian (Admin Only).</p>
+        </div>
     </div>
 
     <?php if (!empty($success)): ?>
@@ -52,17 +54,16 @@
                                             <?= htmlspecialchars($c->currentQueueNumber ?: '-') ?>
                                         </td>
                                         <td style="text-align: right;">
-                                            <div style="display: inline-flex; gap: 8px;">
+                                            <div class="table-actions">
                                                 <!-- Tombol Edit memicu pengisian form edit di kolom kanan -->
-                                                <button type="button" class="btn btn-secondary" 
-                                                        style="padding: 6px 12px; font-size: 0.8rem;"
+                                                <button type="button" class="btn btn-secondary btn-sm" 
                                                         onclick="loadEditForm('<?= htmlspecialchars($c->id) ?>', '<?= htmlspecialchars($c->name) ?>', <?= $c->isActive ? 'true' : 'false' ?>)">
                                                     Edit
                                                 </button>
                                                 
                                                 <form action="<?= url('/counters/delete') ?>" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus loket ini?')" style="margin: 0;">
                                                     <input type="hidden" name="id" value="<?= htmlspecialchars($c->id) ?>">
-                                                    <button type="submit" class="btn btn-danger" style="padding: 6px 12px; font-size: 0.8rem; background: rgba(244,63,94,0.15); color: var(--danger); border: 1px solid rgba(244,63,94,0.2);">
+                                                    <button type="submit" class="btn btn-danger btn-sm">
                                                         Hapus
                                                     </button>
                                                 </form>

@@ -3,24 +3,106 @@
     <div style="width: 100%; max-width: 600px; display: flex; flex-direction: column; gap: 24px;">
 
         <?php if (!empty($successTicket)): ?>
+            <!-- Print specific styles to force exactly 1 page and clean ticket layout -->
+            <style>
+                @media print {
+                    /* Restrict viewport to exactly 1 page and hide overflow */
+                    html, body {
+                        height: 100% !important;
+                        overflow: hidden !important;
+                        background-color: #ffffff !important;
+                        color: #000000 !important;
+                        padding: 0 !important;
+                        margin: 0 !important;
+                        font-family: Arial, sans-serif !important;
+                    }
+                    @page {
+                        size: portrait;
+                        margin: 0;
+                    }
+                    /* Hide non-ticket layout elements */
+                    header, footer, .app-header, .footer-credits-custom, .no-print {
+                        display: none !important;
+                    }
+                    .auth-wrapper {
+                        background: none !important;
+                        padding: 0 !important;
+                        margin: 0 !important;
+                        min-height: auto !important;
+                        display: flex !important;
+                        align-items: center !important;
+                        justify-content: center !important;
+                        height: 100vh !important;
+                    }
+                    /* Ticket box optimization */
+                    .glass-panel {
+                        border: none !important;
+                        box-shadow: none !important;
+                        background: #ffffff !important;
+                        padding: 0 !important;
+                        margin: 0 auto !important;
+                        width: 100% !important;
+                        max-width: 500px !important; /* Limit width on page */
+                    }
+                    .ticket-header {
+                        background-color: #f8fafc !important;
+                        border-bottom: 2px dashed #000000 !important;
+                        padding: 16px !important;
+                        color: #000000 !important;
+                    }
+                    .ticket-header h2, .ticket-header span {
+                        color: #000000 !important;
+                    }
+                    .ticket-header div {
+                        background: #ffffff !important;
+                        color: #000000 !important;
+                        border: 1px solid #cbd5e1 !important;
+                        box-shadow: none !important;
+                    }
+                    .ticket-body {
+                        padding: 20px 15px !important;
+                    }
+                    .ticket-code {
+                        background-color: transparent !important;
+                        border: 1.5px dashed #000000 !important;
+                        padding: 8px 16px !important;
+                        margin-bottom: 16px !important;
+                    }
+                    .ticket-details {
+                        background-color: transparent !important;
+                        border: 1px solid #cbd5e1 !important;
+                        padding: 12px 16px !important;
+                        margin-bottom: 16px !important;
+                        gap: 10px !important;
+                        font-size: 0.85rem !important;
+                    }
+                    .ticket-footer-note {
+                        background-color: transparent !important;
+                        border-top: 1.5px dashed #cbd5e1 !important;
+                        padding: 12px !important;
+                        color: #000000 !important;
+                    }
+                }
+            </style>
+
             <!-- Tampilan Tiket Setelah Sukses Mendaftar -->
             <div class="glass-panel" style="padding: 0; overflow: hidden; border-radius: 20px; box-shadow: var(--shadow-lg); text-align: center; animation: ticketSlideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1); border: 2px solid var(--primary-glow);">
-                <div style="background-color: var(--bg-header); color: #ffffff; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                <div class="ticket-header" style="background-color: var(--bg-header); color: #ffffff; padding: 24px; display: flex; flex-direction: column; align-items: center; gap: 8px;">
                     <div style="width: 48px; height: 48px; background: #ffffff; color: var(--bg-header); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">🏥</div>
                     <h2 style="color: #ffffff; margin: 0; font-family: var(--font-heading); font-size: 1.4rem;">Puskesmas Salem</h2>
                     <span style="font-size: 0.8rem; opacity: 0.8; letter-spacing: 0.05em; font-weight: 700; text-transform: uppercase;">Bukti Pendaftaran Antrian</span>
                 </div>
                 
-                <div style="padding: 30px var(--container-px); background-color: #ffffff;">
+                <div class="ticket-body" style="padding: 30px var(--container-px); background-color: #ffffff;">
                     <span style="font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; display: block; margin-bottom: 6px;">Nomor Antrian</span>
                     <strong style="font-size: 4rem; color: var(--primary-dark); font-family: var(--font-heading); display: block; line-height: 1.1; margin-bottom: 16px;"><?= htmlspecialchars($successTicket['queue_number']) ?></strong>
                     
-                    <div style="display: inline-block; background-color: #f0fdf4; border: 1.5px dashed var(--primary); padding: 12px 24px; border-radius: 10px; margin-bottom: 24px;">
+                    <div class="ticket-code" style="display: inline-block; background-color: #f0fdf4; border: 1.5px dashed var(--primary); padding: 12px 24px; border-radius: 10px; margin-bottom: 24px;">
                         <span style="font-size: 0.78rem; color: var(--text-secondary); display: block; margin-bottom: 2px; font-weight: 600;">KODE PENELUSURAN STATUS (CEK STATUS)</span>
                         <strong style="font-size: 1.3rem; color: var(--primary-dark); font-family: var(--font-heading); letter-spacing: 0.05em;"><?= htmlspecialchars($successTicket['id']) ?></strong>
                     </div>
 
-                    <div style="display: flex; flex-direction: column; gap: 14px; text-align: left; background-color: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid var(--border-light); font-size: 0.9rem; margin-bottom: 24px;">
+                    <div class="ticket-details" style="display: flex; flex-direction: column; gap: 14px; text-align: left; background-color: #f8fafc; padding: 20px; border-radius: 12px; border: 1px solid var(--border-light); font-size: 0.9rem; margin-bottom: 24px;">
                         <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-secondary);">No. Rekam Medis:</span> <strong><?= htmlspecialchars($successTicket['no_rm']) ?></strong></div>
                         <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-secondary);">Nama Pasien:</span> <strong><?= htmlspecialchars($successTicket['nama']) ?></strong></div>
                         <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-secondary);">Poli Tujuan:</span> <strong style="text-transform: uppercase; color: var(--primary-dark);"><?= htmlspecialchars($successTicket['nama_poli']) ?></strong></div>
@@ -29,7 +111,7 @@
                         <div style="display: flex; justify-content: space-between;"><span style="color: var(--text-secondary);">Jenis Pembayaran:</span> <strong><?= htmlspecialchars($successTicket['jenis_pembayaran']) ?></strong></div>
                     </div>
 
-                    <div style="display: flex; gap: 12px; justify-content: center;">
+                    <div style="display: flex; gap: 12px; justify-content: center;" class="no-print">
                         <button onclick="window.print()" class="btn" style="padding: 12px 24px; font-weight: 700; background-color: #e2e8f0; color: var(--text-primary); border: none; border-radius: 8px; cursor: pointer; transition: var(--transition-smooth); display: flex; align-items: center; gap: 8px;" onmouseover="this.style.backgroundColor='#cbd5e1'" onmouseout="this.style.backgroundColor='#e2e8f0'">
                             <span>🖨️</span> Cetak Tiket
                         </button>
@@ -39,7 +121,7 @@
                     </div>
                 </div>
                 
-                <div style="background-color: #f8fafc; border-top: 1px solid var(--border-light); padding: 16px; font-size: 0.8rem; color: var(--text-muted);">
+                <div class="ticket-footer-note" style="background-color: #f8fafc; border-top: 1px solid var(--border-light); padding: 16px; font-size: 0.8rem; color: var(--text-muted);">
                     Simpan Kode Penelusuran di atas untuk memantau antrian secara real-time dari handphone Anda.
                 </div>
             </div>
