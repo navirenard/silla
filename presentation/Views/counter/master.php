@@ -419,40 +419,41 @@
             <div>
                 <!-- Add Form -->
                 <div class="glass-panel" id="pasien-create-panel" style="border-radius: 16px;">
-                    <h3 class="glass-panel-title" style="font-family: var(--font-heading);">Tambah Pasien</h3>
+                    <h3 class="glass-panel-title" style="font-family: var(--font-heading);">Tambah Pasien Baru</h3>
                     <form action="<?= url('/admin/master/pasien/create') ?>" method="POST" autocomplete="off">
                         <div class="form-group">
-                            <label for="nik_pas_add" class="form-label">NIK (16 Digit)</label>
-                            <input type="text" id="nik_pas_add" name="nik" class="form-control" placeholder="16 digit NIK" required maxlength="16" minlength="16" pattern="[0-9]{16}">
+                            <label for="nik_pas_add" class="form-label">NIK (16 digit KTP)</label>
+                            <input type="text" id="nik_pas_add" name="nik" class="form-control" placeholder="16 digit NIK KTP" required maxlength="16" minlength="16" pattern="[0-9]{16}">
                         </div>
                         <div class="form-group">
                             <label for="nama_pas_add" class="form-label">Nama Lengkap</label>
-                            <input type="text" id="nama_pas_add" name="nama" class="form-control" required>
+                            <input type="text" id="nama_pas_add" name="nama" class="form-control" placeholder="Nama sesuai KTP" required>
                         </div>
                         <div class="grid-2" style="gap: 12px; margin-bottom: 0;">
                             <div class="form-group">
-                                <label for="tgl_lahir_pas_add" class="form-label">Tgl Lahir</label>
+                                <label for="tgl_lahir_pas_add" class="form-label">Tanggal Lahir</label>
                                 <input type="date" id="tgl_lahir_pas_add" name="tgl_lahir" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="jk_pas_add" class="form-label">Gender</label>
+                                <label for="jk_pas_add" class="form-label">Jenis Kelamin</label>
                                 <select id="jk_pas_add" name="jk" class="form-control" required style="height: 48px; border-radius: 10px;">
+                                    <option value="">-- Pilih --</option>
                                     <option value="Laki-laki">Laki-laki</option>
                                     <option value="Perempuan">Perempuan</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="no_telp_pas_add" class="form-label">No. Telp</label>
-                            <input type="text" id="no_telp_pas_add" name="no_telp" class="form-control" required>
+                            <label for="no_telp_pas_add" class="form-label">No. Telepon</label>
+                            <input type="text" id="no_telp_pas_add" name="no_telp" class="form-control" placeholder="Contoh: 08123456789" required>
                         </div>
                         <div class="form-group">
                             <label for="no_bpjs_pas_add" class="form-label">No. BPJS (Opsional)</label>
-                            <input type="text" id="no_bpjs_pas_add" name="no_bpjs" class="form-control">
+                            <input type="text" id="no_bpjs_pas_add" name="no_bpjs" class="form-control" placeholder="Kosongkan jika bukan BPJS">
                         </div>
                         <div class="form-group" style="margin-bottom: 20px;">
-                            <label for="alamat_pas_add" class="form-label">Alamat Lengkap</label>
-                            <textarea id="alamat_pas_add" name="alamat" class="form-control" style="min-height: 80px;" required></textarea>
+                            <label for="alamat_pas_add" class="form-label">Alamat</label>
+                            <textarea id="alamat_pas_add" name="alamat" class="form-control" placeholder="Alamat lengkap tempat tinggal" style="min-height: 80px;" required></textarea>
                         </div>
                         <button type="submit" class="btn-primary" style="width: 100%; padding: 12px;">Simpan Pasien</button>
                     </form>
@@ -467,37 +468,38 @@
                             <input type="text" id="no_rm_edit_display" class="form-control" disabled>
                         </div>
                         <div class="form-group">
-                            <label for="nik_pas_edit" class="form-label">NIK (16 Digit)</label>
-                            <input type="text" id="nik_pas_edit" name="nik" class="form-control" required maxlength="16" minlength="16" pattern="[0-9]{16}">
+                            <label for="nik_pas_edit" class="form-label">NIK (16 digit KTP)</label>
+                            <input type="text" id="nik_pas_edit" name="nik" class="form-control" placeholder="16 digit NIK KTP" required maxlength="16" minlength="16" pattern="[0-9]{16}">
                         </div>
                         <div class="form-group">
                             <label for="nama_pas_edit" class="form-label">Nama Lengkap</label>
-                            <input type="text" id="nama_pas_edit" name="nama" class="form-control" required>
+                            <input type="text" id="nama_pas_edit" name="nama" class="form-control" placeholder="Nama sesuai KTP" required>
                         </div>
                         <div class="grid-2" style="gap: 12px; margin-bottom: 0;">
                             <div class="form-group">
-                                <label for="tgl_lahir_pas_edit" class="form-label">Tgl Lahir</label>
+                                <label for="tgl_lahir_pas_edit" class="form-label">Tanggal Lahir</label>
                                 <input type="date" id="tgl_lahir_pas_edit" name="tgl_lahir" class="form-control" required>
                             </div>
                             <div class="form-group">
-                                <label for="jk_pas_edit" class="form-label">Gender</label>
+                                <label for="jk_pas_edit" class="form-label">Jenis Kelamin</label>
                                 <select id="jk_pas_edit" name="jk" class="form-control" required style="height: 48px; border-radius: 10px;">
+                                    <option value="">-- Pilih --</option>
                                     <option value="Laki-laki">Laki-laki</option>
                                     <option value="Perempuan">Perempuan</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="no_telp_pas_edit" class="form-label">No. Telp</label>
-                            <input type="text" id="no_telp_pas_edit" name="no_telp" class="form-control" required>
+                            <label for="no_telp_pas_edit" class="form-label">No. Telepon</label>
+                            <input type="text" id="no_telp_pas_edit" name="no_telp" class="form-control" placeholder="Contoh: 08123456789" required>
                         </div>
                         <div class="form-group">
                             <label for="no_bpjs_pas_edit" class="form-label">No. BPJS (Opsional)</label>
-                            <input type="text" id="no_bpjs_pas_edit" name="no_bpjs" class="form-control">
+                            <input type="text" id="no_bpjs_pas_edit" name="no_bpjs" class="form-control" placeholder="Kosongkan jika bukan BPJS">
                         </div>
                         <div class="form-group" style="margin-bottom: 20px;">
-                            <label for="alamat_pas_edit" class="form-label">Alamat Lengkap</label>
-                            <textarea id="alamat_pas_edit" name="alamat" class="form-control" style="min-height: 80px;" required></textarea>
+                            <label for="alamat_pas_edit" class="form-label">Alamat</label>
+                            <textarea id="alamat_pas_edit" name="alamat" class="form-control" placeholder="Alamat lengkap tempat tinggal" style="min-height: 80px;" required></textarea>
                         </div>
                         <div style="display: flex; gap: 8px;">
                             <button type="submit" class="btn-primary" style="flex: 1; padding: 12px;">Update</button>
