@@ -42,8 +42,10 @@ CREATE TABLE IF NOT EXISTS `jadwal_praktiks` (
     `jam_selesai` TIME NOT NULL,
     `kuota` INT NOT NULL DEFAULT 20,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`kd_dokter`) REFERENCES `dokters` (`kd_dokter`) ON DELETE CASCADE
+    FOREIGN KEY (`kd_dokter`) REFERENCES `dokters` (`kd_dokter`) ON DELETE CASCADE,
+    UNIQUE KEY `unique_jadwal` (`kd_dokter`, `hari`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 
 -- 5. Table pasiens (Data Diri Pasien)
 CREATE TABLE IF NOT EXISTS `pasiens` (

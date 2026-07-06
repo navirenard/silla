@@ -38,8 +38,10 @@ CREATE TABLE IF NOT EXISTS jadwal_praktiks (
     jam_mulai TIME NOT NULL,
     jam_selesai TIME NOT NULL,
     kuota INT NOT NULL DEFAULT 20,
-    FOREIGN KEY (kd_dokter) REFERENCES dokters (kd_dokter) ON DELETE CASCADE
+    FOREIGN KEY (kd_dokter) REFERENCES dokters (kd_dokter) ON DELETE CASCADE,
+    CONSTRAINT unique_jadwal UNIQUE (kd_dokter, hari)
 );
+
 
 -- 5. Table pasiens (Data Diri Pasien)
 CREATE TABLE IF NOT EXISTS pasiens (
